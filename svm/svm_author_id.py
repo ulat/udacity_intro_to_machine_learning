@@ -28,9 +28,9 @@ features_train, features_test, labels_train, labels_test = preprocess()
 #clf2 = svm.SVC(kernel='linear')
 #clf3 = svm.SVC(kernel='rbf')
 clf3 = svm.SVC(kernel='rbf', C=10000.0)
-# to speed up the classifier
-features_train = features_train[:len(features_train)/100]
-labels_train = labels_train[:len(labels_train)/100]
+# to speed up the classifier if commented, the full training data set is used
+#features_train = features_train[:len(features_train)/100]
+#labels_train = labels_train[:len(labels_train)/100]
 
 
 #clf.fit(features_train, labels_train)
@@ -44,5 +44,12 @@ pred3 = clf3.predict(features_test)
 #print accuracy_score(labels_test, pred)
 #print accuracy_score(labels_test, pred2)
 print accuracy_score(labels_test, pred3)
+print "prediction for element #10: ", pred3[10]
+print "prediction for element #26: ", pred3[26]
+print "prediction for element #50: ", pred3[50]
+
+chris = (pred3==1).astype(int)
+print chris
+print "How many test events are predicted to be in the ""Chris"" class?", sum(chris)
 
 #########################################################
