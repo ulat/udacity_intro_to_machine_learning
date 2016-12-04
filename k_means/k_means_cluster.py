@@ -99,7 +99,7 @@ poi2, finance_features2 = targetFeatureSplit( data2 )
 for f1, f2, _ in finance_features2:
     plt.scatter( f1, f2 )
 
-plt.show()
+#plt.show()
 
 
 
@@ -119,27 +119,27 @@ pred2 = estimator.fit_predict(data2)
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", \
-        f1_name=feature_1, f2_name=feature_2)
+    #Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", \
+    #    f1_name=feature_1, f2_name=feature_2)
 
     # Draw Plot with three features
-    Draw(pred2, finance_features2, poi2, mark_poi=False, name="clusters_3_features.pdf", \
-        f1_name=feature_1, f2_name=feature_2)
+    #Draw(pred2, finance_features2, poi2, mark_poi=False, name="clusters_3_features.pdf", \
+    #    f1_name=feature_1, f2_name=feature_2)
 
     # Using scikit learning to rescale the data:
     # Rescale salary and exercised_stock_options
     # Draw plot with rescaled features
     from sklearn.preprocessing import MinMaxScaler
 
-
     scaler = MinMaxScaler()
-    finance_features_transformed = acaler.fit(finance_features)
-    data3_scaled = scaler.transform(data)
+    data3_scaled = scaler.fit_transform(data)
+    print "scaled features (200k salary and 1000k exercised_stock_options): ",\
+    scaler.transform([[200000.0], [1000000.0]])
+
     pred3 = estimator.fit_predict(data3_scaled)
-    print finance_features
-    print "--------------"
-    print finance_features_transformed
-    Draw(pred3, finance_features_transformed, poi, mark_poi=False, name="clusters_with_scaling.pdf", \
-          f1_name=feature_1, f2_name=feature_2)
+
+
+    #Draw(pred3, finance_features, poi, mark_poi=False, name="clusters_with_scaling.pdf", \
+    #      f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"

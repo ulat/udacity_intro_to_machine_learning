@@ -15,9 +15,11 @@ def outlierCleaner(predictions, ages, net_worths):
     import timeit
     start = timeit.default_timer()
     cleaned_data = []
+
     cleaned_data = [(age, net_worth, (prediction-net_worth)**2)\
         for age, net_worth, prediction \
         in zip(ages, net_worths, predictions)]
+
     last_index = int(len(cleaned_data)*0.9-1)
     cleaned_data = sorted(cleaned_data, key = lambda t: t[2])
     cleaned_data = cleaned_data[0:last_index]
