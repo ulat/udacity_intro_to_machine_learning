@@ -19,12 +19,11 @@ authors = pickle.load( open(authors_file, "r") )
 ### remainder go into training)
 ### feature matrices changed to dense representations for compatibility with
 ### classifier functions in versions 0.15.2 and earlier
-from sklearn import cross_validation
-features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(word_data, authors, test_size=0.1, random_state=42)
+from sklearn import model_selection
+features_train, features_test, labels_train, labels_test = model_selection.train_test_split(word_data, authors, test_size=0.1, random_state=42)
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5,
-                             stop_words='english')
+vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english')
 features_train = vectorizer.fit_transform(features_train)
 features_test  = vectorizer.transform(features_test).toarray()
 
@@ -38,6 +37,27 @@ labels_train   = labels_train[:150]
 
 
 ### your code goes here
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
 
+clf = DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
 
+pred = clf.predict(features_train)
+acc = accuracy_score(labels_train, pred)*1.0
+print "Accuracy on Trainingset: (Should be 1) ", acc
+
+pred = clf.predict(features_test)
+acc = accuracy_score(labels_test, pred)*1.0
+
+print "Accuracy on Test-Set: ", acc
+
+## Print most important features
+feature_importance_threshold = 0.2
+
+
+important_features = [(feature, importance) for feature, importance in enumerate(clf.feature_importances_) if importance > feature_importance_threshold]
+
+
+print "highest rating feature: ", important_features
