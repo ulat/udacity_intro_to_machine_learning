@@ -14,17 +14,17 @@ def outlierCleaner(predictions, ages, net_worths):
     # first approach just using list comprehension
     import timeit
     start = timeit.default_timer()
-    cleaned_data = []
 
-    cleaned_data = [(age, net_worth, (prediction-net_worth)**2)\
-        for age, net_worth, prediction \
-        in zip(ages, net_worths, predictions)]
+
+    cleaned_data = [(age, net_worth, (prediction-net_worth)**2)
+                    for age, net_worth, prediction
+                    in zip(ages, net_worths, predictions)]
 
     last_index = int(len(cleaned_data)*0.9-1)
     cleaned_data = sorted(cleaned_data, key = lambda t: t[2])
     cleaned_data = cleaned_data[0:last_index]
     stop = timeit.default_timer()
-    runtime1 = stop - start
+    #runtime1 = stop - start
 
     # second approach. converting lists to numpy arrays, doing the math and
     # converting back to a list of tuples.
